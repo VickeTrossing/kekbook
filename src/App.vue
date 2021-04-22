@@ -1,18 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <navigation></navigation>
+  <div class="side-bar">
+    <side-bar></side-bar>
+  </div>
+  <base-card></base-card>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+export default {}
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
 </script>
+    
 
 <style>
 #app {
@@ -21,6 +19,13 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 10px;
+}
+
+.side-bar {
+  border: solid red;
+  width: 20%;
+  margin-top: 0px;
+  padding-top: 0px;
 }
 </style>
