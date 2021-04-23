@@ -1,9 +1,20 @@
 <template>
   <navigation></navigation>
-  <div class="side-bar">
-    <side-bar></side-bar>
+  <div class="body">
+
+    <div class="side-bar">
+      <side-bar></side-bar>
+    </div>
+
+    <div class="status-update">
+      <update-status></update-status>
+    </div>
+
+    <div class="content-body">
+      <content-body></content-body>
+    </div>
+
   </div>
-  <base-card></base-card>
 </template>
 
 <script>
@@ -22,10 +33,22 @@ export default {}
   margin-top: 10px;
 }
 
-.side-bar {
+.status-update{
   border: solid red;
+  margin-left: 20%;
+}
+
+
+.content-body{
+ margin-left: 20%;
+ /* border: solid red; */
+ padding-top: 10px;
+}
+
+.side-bar {
   width: 20%;
   margin-top: 0px;
   padding-top: 0px;
+  float: left;
 }
 </style>

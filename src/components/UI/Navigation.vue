@@ -10,7 +10,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 nav {
   border-radius: 12px;
   box-shadow: 0 0px 10px rgba(46, 46, 46, 0.26);
