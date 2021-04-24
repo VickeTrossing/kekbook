@@ -7,6 +7,7 @@ import ContentBody from './components/UI/ContentBody.vue'
 import UpdateStatus from './components/UI/UpdateStatus.vue'
 
 
+
 const app = createApp(App);
 
 

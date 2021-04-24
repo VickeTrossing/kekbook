@@ -34,8 +34,9 @@ export default {}
 }
 
 .status-update{
-  border: solid red;
   margin-left: 20%;
+  padding-top: 20px;
+  /* border: solid red; */
 }
 
 
@@ -47,7 +48,7 @@ export default {}
 
 .side-bar {
   width: 20%;
-  margin-top: 0px;
+  margin-top: 0px !important;
   padding-top: 0px;
   float: left;
 }
