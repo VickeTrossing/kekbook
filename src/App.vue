@@ -1,7 +1,6 @@
 <template>
   <navigation></navigation>
   <div class="body">
-
     <div class="side-bar">
       <side-bar></side-bar>
     </div>
@@ -13,7 +12,6 @@
     <div class="content-body">
       <content-body></content-body>
     </div>
-
   </div>
 </template>
 
@@ -33,17 +31,16 @@ export default {}
   margin-top: 10px;
 }
 
-.status-update{
+.status-update {
   margin-left: 20%;
   padding-top: 20px;
   /* border: solid red; */
 }
 
-
-.content-body{
- margin-left: 20%;
- /* border: solid red; */
- padding-top: 10px;
+.content-body {
+  margin-left: 20%;
+  /* border: solid red; */
+  padding-top: 10px;
 }
 
 .side-bar {

@@ -3,19 +3,15 @@
     <base-card class="base-card">
       <div class="text-div">
         <img src="../../icons/fi-rr-user.svg" alt />
-        <input 
-        type="text" 
-        placeholder="Type something" 
-        id="status-message"
-        v-model="message"
-        />
-        <base-button id="base-button" @click="submitMessage">Post</base-button>
+        <input type="text" placeholder="Type something" status-message="status-message" v-model="message" />
+        <base-button id="base-button" @click="submitMessage"><img id="post-icon" src="../../icons/check-mark.png"/>Post</base-button>
       </div>
     </base-card>
   </div>
 </template>
 
 <script>
+
 
 export default {
   data() {
@@ -25,10 +21,31 @@ export default {
   },
 
   methods: {
-    submitMessage(){
-      console.log(this.message);
+    submitMessage() {
+      
+      fetch('https://kekbook-5f818-default-rtdb.firebaseio.com/status-post.json', {
+        method: 'POST',
+
+        headers: {
+          'Content-type': 'application/json'
+        },
+
+        body: JSON.stringify({
+          message: this.message
+        }),
+      }).then((respone) => {
+        if(respone.ok){
+          console.log("Message sent: " + this.message);
+        }else{
+          throw new Error("Could not save data");
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+
+      this.message = '';
     }
-  }
+  },
 }
 </script>
 
@@ -43,6 +60,7 @@ export default {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   margin-left: 15px;
+  height: 34px;
 }
 
 input {
@@ -68,5 +86,13 @@ input {
   border: solid rgb(197, 197, 197);
   border-radius: 25px;
   margin-top: 1px;
+}
+
+#post-icon{
+  border: none;
+  border-radius: 20px;
+  height: 15px;
+  margin-right: 3px;
+  text-align: left;
 }
 </style>
