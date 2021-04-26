@@ -1,7 +1,7 @@
 <template>
   <div class="shadow-div">
     <!-- <div class="header">Links lmao test</div> -->
-    <div class="body">test asdfasdfasdf</div>
+    <div class="body"></div>
   </div>
 </template>
 

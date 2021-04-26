@@ -5,7 +5,7 @@ import Navigation from './components/UI/Navigation.vue'
 import SideBar from './components/UI/SideBar.vue'
 import ContentBody from './components/UI/ContentBody.vue'
 import UpdateStatus from './components/UI/UpdateStatus.vue'
-
+import BaseButton from './components/UI/BaseButton.vue'
 
 
 const app = createApp(App);
@@ -16,5 +16,6 @@ app.component('navigation', Navigation);
 app.component('side-bar', SideBar);
 app.component('content-body', ContentBody);
 app.component('update-status', UpdateStatus);
+app.component('base-button', BaseButton);
 
 app.mount('#app');
