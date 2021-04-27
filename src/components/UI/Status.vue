@@ -57,7 +57,7 @@ p {
   border-top-right-radius: 20px;
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
-  padding: 10px;
+  padding: 15px;
   margin: 10px;
   background-color: rgb(240, 240, 240);
 }
