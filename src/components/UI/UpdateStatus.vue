@@ -16,7 +16,8 @@
 export default {
   data() {
     return {
-      message: ''
+      message: '',
+      id: null
     };
   },
 
@@ -31,7 +32,8 @@ export default {
         },
 
         body: JSON.stringify({
-          message: this.message
+          message: this.message,
+          id: this.id
         }),
       }).then((respone) => {
         if(respone.ok){
