@@ -33,7 +33,7 @@ export default {
         const results = [];
 
         for(const id in data){
-          results.push({
+          results.unshift({
             message: data[id].message,
             id: id
           });
@@ -61,10 +61,4 @@ export default {
   /* border: solid red; */
   /* margin: 100px !important; */
 }
-
-.status-class{
-  /* border: solid red; */
- 
-}
-
 </style>

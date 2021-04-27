@@ -31,6 +31,8 @@ export default {
 
 <style scoped>
 div img {
+  -ms-transform: translateY(35%);
+  transform: translateY(35%);
   height: 40px;
   border: solid rgb(197, 197, 197);
   border-radius: 25px;
@@ -44,14 +46,19 @@ p {
 }
 
 #delete-button {
+  -ms-transform: translateY(35%);
+  transform: translateY(35%);
   float: right;
   margin-top: 6px;
 }
 
 #text-id {
-  padding-bottom: 100px;
-  border-radius: 20px;
+  /* border-top-left-radius: 20px; */
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
   padding: 10px;
+  margin: 10px;
   background-color: rgb(240, 240, 240);
 }
 
@@ -63,6 +70,7 @@ span {
   border-radius: 40px;
   height: 50px;
   text-align: center;
+  padding-bottom: 40px;
   /* border: solid red; */
 }
 </style>
