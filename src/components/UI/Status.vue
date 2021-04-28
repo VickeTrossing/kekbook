@@ -12,10 +12,13 @@
       </base-button>
       <base-button class="comment-button" @click="activeComment">Comment</base-button>
     </div>
-      <div v-if="commentIsActive" class="comment-section">
-        <input type="text" placeholder="Write a comment">
-        <base-button class="post-button">Post</base-button>
-        </div>
+    <div v-if="commentIsActive" class="comment-section">
+      <input type="text" placeholder="Write a comment" v-model="comment" />
+      <base-button class="post-button" @click="postComments">Post</base-button>
+      <li v-for="comment in comments" :key="comment.id">
+        <base-card>{{ comment.comment }} ff</base-card>
+      </li>
+    </div>
   </base-card>
 </template>
 
@@ -25,7 +28,9 @@ export default {
   data() {
     return {
       like: 0,
-      commentIsActive: false
+      commentIsActive: false,
+      comment: '',
+      postedComments: []
     }
   },
 
@@ -50,27 +55,83 @@ export default {
       }
     },
 
-
     activeComment() {
       this.commentIsActive = !this.commentIsActive;
+    },
+
+
+    postComments() {
+      const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
+
+      fetch(postId, {
+        method: 'POST',
+
+        headers: {
+          'Content-type': 'application/json'
+        },
+
+        body: JSON.stringify({
+          comment: this.comment,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          console.log("All good in the hood");
+        } else {
+          throw new Error("Could not send comment");
+        }
+      }).catch((error) => {
+        console.log(error);
+      })
+
+      this.comment = '';
+      this.loadComments();
+    },
+
+    loadComments() {
+      const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
+
+      fetch(postId).then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+      }).then((data) => {
+        const results = [];
+
+        for (const id in data) {
+          results.unshift({
+            comment: data[id].comment,
+            id: id
+          });
+          console.log(data);
+        }
+        this.postedComments = results;
+      }).catch((error) => {
+        console.log(error);
+      })
     }
+
   }
 
 }
 </script>
 
 <style scoped>
-
-.post-button{
+.post-button {
   border-radius: 12px;
   margin: 10px;
 }
 
-.comment-section{
-  border: 1px solid rgb(216, 216, 216);
-  border-radius: 12px;
+.comment-section {
+  padding-top: 10px;
+  border-top: 1px solid rgb(216, 216, 216);
   margin: 60px;
   text-align: center;
+}
+
+.comment-section input {
+  border-radius: 12px;
+  border: 1px solid rgb(161, 161, 161);
+  padding: 10px;
 }
 
 .comment-button {
