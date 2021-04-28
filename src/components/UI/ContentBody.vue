@@ -1,4 +1,5 @@
 <template>
+  <base-button @click="loadPosts()">Update</base-button>
   <base-card id="base-card">
     <status class="status-class" v-for="post in posts" :messages="post.message" :key="post.id" :id="post.id"></status>
   </base-card>
@@ -19,6 +20,10 @@ export default {
   },
 
   mounted() {
+    this.loadPosts();
+  },
+
+  updated() {
     this.loadPosts();
   },
 
@@ -45,7 +50,6 @@ export default {
       }).catch((error) => {
         console.log(error);
       })
-      console.log(this.id);
     }
   },
 

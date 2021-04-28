@@ -23,8 +23,12 @@ export default {
 
   methods: {
     submitMessage() {
-      
-      fetch('https://kekbook-5f818-default-rtdb.firebaseio.com/status-post.json', {
+
+      if(this.message.trim() === ''){
+        console.log("You have to type something");
+      }else{
+
+        fetch('https://kekbook-5f818-default-rtdb.firebaseio.com/status-post.json', {
         method: 'POST',
 
         headers: {
@@ -44,9 +48,9 @@ export default {
       }).catch((error) => {
         console.log(error);
       });
+      }
 
       this.message = '';
-      location.reload();
     }
   },
 }
