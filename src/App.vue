@@ -31,6 +31,10 @@ export default {}
   margin-top: 10px;
 }
 
+button::-moz-focus-inner {
+  border: 0;
+}
+
 .status-update {
   margin-left: 20%;
   padding-top: 20px;

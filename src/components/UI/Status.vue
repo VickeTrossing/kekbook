@@ -6,12 +6,22 @@
         <span id="text-id">{{ messages }}</span>
         <base-button id="delete-button" @click="deleteItem">Delete</base-button>
       </p>
+      <base-button class="like-button" @click="likeCounter">
+        <img src="../../icons/like2.png" alt /> {{ like }}
+      </base-button>
     </div>
   </base-card>
 </template>
 
 <script>
 export default {
+
+  data(){
+    return{
+      like: 0
+    }
+  },
+
   props: ['messages',
     'id',],
 
@@ -24,6 +34,10 @@ export default {
           'Content-type': 'application/json'
         }
       });
+    },
+
+    likeCounter(){
+      this.like = this.like + 1;
     }
   }
 
@@ -31,6 +45,27 @@ export default {
 </script>
 
 <style scoped>
+.like-button {
+  margin: 10px;
+  float: left;
+  height: 40px;
+  max-width: 150px;
+  -ms-transform: translateY(1%);
+  transform: translateY(-25%);
+  /* transform: translateX(0%); */
+  text-align: center;
+  align-content: center;
+}
+
+.like-button img {
+  -ms-transform: translateY(1%);
+  transform: translateX(-50%);
+  border-radius: 0;
+  border: none;
+  height: 20px;
+  width: 20px;
+}
+
 div img {
   -ms-transform: translateY(1%);
   transform: translateY(1%);
@@ -45,8 +80,6 @@ p {
   text-align: start;
   margin: 0;
 }
-
-
 
 #delete-button {
   -ms-transform: translateY(35%);
@@ -76,7 +109,7 @@ span {
   border-radius: 40px;
   min-height: 50px;
   text-align: center;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
   /* border: solid red; */
 }
 </style>
