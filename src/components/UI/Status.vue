@@ -7,23 +7,29 @@
         <base-button id="delete-button" @click="deleteItem">Delete</base-button>
       </p>
       <base-button class="like-button" @click="likeCounter">
-        <img src="../../icons/like2.png" alt /> {{ like }}
+        <img src="../../icons/like2.png" alt />
+        {{ like }}
       </base-button>
+      <base-button class="comment-button" @click="activeComment">Comment</base-button>
     </div>
+      <div v-if="commentIsActive" class="comment-section">
+        <input type="text" placeholder="Write a comment">
+        <base-button class="post-button">Post</base-button>
+        </div>
   </base-card>
 </template>
 
 <script>
 export default {
 
-  data(){
-    return{
-      like: 0
+  data() {
+    return {
+      like: 0,
+      commentIsActive: false
     }
   },
 
-  props: ['messages',
-    'id',],
+  props: ['messages', 'id'],
 
   methods: {
     deleteItem() {
@@ -36,8 +42,17 @@ export default {
       });
     },
 
-    likeCounter(){
-      this.like = this.like + 1;
+    likeCounter() {
+      if (this.like === 0) {
+        this.like = this.like + 1;
+      } else {
+        this.like = 0;
+      }
+    },
+
+
+    activeComment() {
+      this.commentIsActive = !this.commentIsActive;
     }
   }
 
@@ -45,6 +60,31 @@ export default {
 </script>
 
 <style scoped>
+
+.post-button{
+  border-radius: 12px;
+  margin: 10px;
+}
+
+.comment-section{
+  border: 1px solid rgb(216, 216, 216);
+  border-radius: 12px;
+  margin: 60px;
+  text-align: center;
+}
+
+.comment-button {
+  margin: 10px;
+  float: left;
+  height: 40px;
+  max-width: 150px;
+  -ms-transform: translateY(1%);
+  transform: translateY(-25%);
+  /* transform: translateX(0%); */
+  text-align: center;
+  align-content: center;
+}
+
 .like-button {
   margin: 10px;
   float: left;
@@ -108,6 +148,7 @@ span {
 #base-message {
   border-radius: 40px;
   min-height: 50px;
+  max-height: 500px;
   text-align: center;
   padding-bottom: 50px;
   /* border: solid red; */
