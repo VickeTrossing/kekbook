@@ -15,14 +15,29 @@
     <div v-if="commentIsActive" class="comment-section">
       <input type="text" placeholder="Write a comment" v-model="comment" />
       <base-button class="post-button" @click="postComments">Post</base-button>
-      <li v-for="comment in comments" :key="comment.id">
-        <base-card>{{ comment.comment }} ff</base-card>
-      </li>
+      <ul v-if="postedComments.length > 1">
+        <li v-for="comment in postedComments" :key="comment.id">
+          {{ comment.comment }}
+        </li>
+      </ul>
     </div>
   </base-card>
 </template>
 
+$("ul li").each(function() {
+
+                                                  var $this = $(this);
+
+          if($this.text() == ""){
+
+             $this.remove();
+
+          }
+
+});
+
 <script>
+
 export default {
 
   data() {
@@ -57,35 +72,45 @@ export default {
 
     activeComment() {
       this.commentIsActive = !this.commentIsActive;
+      this.loadComments();
+      console.log(this.postedComments.length);
     },
 
 
     postComments() {
+
       const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
 
-      fetch(postId, {
-        method: 'POST',
+      if (this.comment.trim() === '') {
+        console.log("Stop that, write something")
+      } else {
+        fetch(postId, {
+          method: 'POST',
 
-        headers: {
-          'Content-type': 'application/json'
-        },
+          headers: {
+            'Content-type': 'application/json'
+          },
 
-        body: JSON.stringify({
-          comment: this.comment,
-        }),
-      }).then((response) => {
-        if (response.ok) {
-          console.log("All good in the hood");
-        } else {
-          throw new Error("Could not send comment");
-        }
-      }).catch((error) => {
-        console.log(error);
-      })
+          body: JSON.stringify({
+            comment: this.comment,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            console.log("All good in the hood");
+          } else {
+            throw new Error("Could not send comment");
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+      }
 
       this.comment = '';
-      this.loadComments();
+      setTimeout(() => {
+        this.loadComments();
+      }, 300);
     },
+
 
     loadComments() {
       const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
@@ -116,6 +141,19 @@ export default {
 </script>
 
 <style scoped>
+
+li{
+  margin: 2rem auto;
+  max-width: 40rem;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+ul{
+  list-style-type: none;
+}
+
 .post-button {
   border-radius: 12px;
   margin: 10px;
@@ -207,11 +245,13 @@ span {
 }
 
 #base-message {
-  border-radius: 40px;
+  /* border-radius: 40px; */
   min-height: 50px;
-  max-height: 500px;
+  max-height: 100%;
   text-align: center;
   padding-bottom: 50px;
-  /* border: solid red; */
+  border-style: solid;
+  border-width: 5px;
+  border-image: linear-gradient(45deg,  #42b883, rgb(147, 101, 255)) 1;
 }
 </style>

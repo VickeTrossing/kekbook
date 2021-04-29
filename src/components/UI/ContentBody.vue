@@ -15,6 +15,7 @@ export default {
   data() {
     return {
       posts: [],
+      comments: [],
       error: null
     }
   },
@@ -40,7 +41,8 @@ export default {
         for(const id in data){
           results.unshift({
             message: data[id].message,
-            id: id
+            id: id,
+            comments: data[id].comments
           });
 
           console.log(data);
@@ -59,8 +61,9 @@ export default {
 
 <style scoped>
 #base-card {
-  height: 1000px;
+  /* height: 1000px; */
   min-width: 1200px;
+  max-height: 100%;
   text-align: center;
   /* border: solid red; */
   /* margin: 100px !important; */
