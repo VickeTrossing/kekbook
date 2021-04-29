@@ -10,31 +10,19 @@
         <img src="../../icons/like2.png" alt />
         {{ like }}
       </base-button>
-      <base-button class="comment-button" @click="activeComment">Comment</base-button>
+      <base-button class="comment-button" @click="activeComment">Comment {{ commentCount }}</base-button>
     </div>
     <div v-if="commentIsActive" class="comment-section">
       <input type="text" placeholder="Write a comment" v-model="comment" />
       <base-button class="post-button" @click="postComments">Post</base-button>
-      <ul v-if="postedComments.length > 1">
-        <li v-for="comment in postedComments" :key="comment.id">
-          {{ comment.comment }}
-        </li>
+      <ul v-if="postedComments">
+        <li v-for="comment in postedComments" :key="comment.id" :comment="comment.comment">{{ comment.comment }}</li>
       </ul>
     </div>
   </base-card>
 </template>
 
-$("ul li").each(function() {
 
-                                                  var $this = $(this);
-
-          if($this.text() == ""){
-
-             $this.remove();
-
-          }
-
-});
 
 <script>
 
@@ -45,11 +33,17 @@ export default {
       like: 0,
       commentIsActive: false,
       comment: '',
-      postedComments: []
+      postedComments: [],
+      commentCount: null
     }
   },
 
   props: ['messages', 'id'],
+
+
+  mounted(){
+    this.countComments();
+  },
 
   methods: {
     deleteItem() {
@@ -62,6 +56,12 @@ export default {
       });
     },
 
+    countComments(){
+      this.postedComments.length = this.commentCount;
+      console.log(this.postedComments.length);
+    },
+
+
     likeCounter() {
       if (this.like === 0) {
         this.like = this.like + 1;
@@ -73,85 +73,90 @@ export default {
     activeComment() {
       this.commentIsActive = !this.commentIsActive;
       this.loadComments();
-      console.log(this.postedComments.length);
+      this.countComments();
     },
+  
 
 
-    postComments() {
+  postComments() {
 
-      const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
+    const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
 
-      if (this.comment.trim() === '') {
-        console.log("Stop that, write something")
-      } else {
-        fetch(postId, {
-          method: 'POST',
+    if (this.comment.trim() === '') {
+      console.log("Stop that, write something")
+    } else {
+      fetch(postId, {
+        method: 'POST',
 
-          headers: {
-            'Content-type': 'application/json'
-          },
+        headers: {
+          'Content-type': 'application/json'
+        },
 
-          body: JSON.stringify({
-            comment: this.comment,
-          }),
-        }).then((response) => {
-          if (response.ok) {
-            console.log("All good in the hood");
-          } else {
-            throw new Error("Could not send comment");
-          }
-        }).catch((error) => {
-          console.log(error);
-        })
-      }
-
-      this.comment = '';
-      setTimeout(() => {
-        this.loadComments();
-      }, 300);
-    },
-
-
-    loadComments() {
-      const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
-
-      fetch(postId).then((res) => {
-        if (res.ok) {
-          return res.json();
+        body: JSON.stringify({
+          comment: this.comment,
+        }),
+      }).then((response) => {
+        if (response.ok) {
+          console.log("All good in the hood");
+        } else {
+          throw new Error("Could not send comment");
         }
-      }).then((data) => {
-        const results = [];
-
-        for (const id in data) {
-          results.unshift({
-            comment: data[id].comment,
-            id: id
-          });
-          console.log(data);
-        }
-        this.postedComments = results;
       }).catch((error) => {
         console.log(error);
       })
     }
 
+    this.comment = '';
+    setTimeout(() => {
+      this.loadComments();
+    }, 300);
+  },
+
+
+  loadComments() {
+    const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
+
+    fetch(postId).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+    }).then((data) => {
+      const results = [];
+
+      for (const id in data) {
+        results.unshift({
+          comment: data[id].comment,
+          id: id
+        });
+        console.log(data);
+      }
+      this.postedComments = results;
+    }).catch((error) => {
+      console.log(error);
+    })
   }
+
+}
 
 }
 </script>
 
 <style scoped>
-
-li{
+li {
   margin: 2rem auto;
-  max-width: 40rem;
+  /* min-width: 10px; */
+  min-width: 100px;
+  /* width: 100%; */
   padding: 1rem;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-top-left-radius: 0px;
+  background-color: rgb(240, 240, 240);
+  text-align: left;
 }
 
-ul{
+ul {
   list-style-type: none;
+  padding: 0;
 }
 
 .post-button {
@@ -236,6 +241,7 @@ p {
   border-bottom-left-radius: 20px;
   padding: 15px;
   margin: 10px;
+  margin-bottom: 20px;
   min-width: 10px;
   background-color: rgb(240, 240, 240);
 }
@@ -251,7 +257,7 @@ span {
   text-align: center;
   padding-bottom: 50px;
   border-style: solid;
-  border-width: 5px;
-  border-image: linear-gradient(45deg,  #42b883, rgb(147, 101, 255)) 1;
+  border-width: 3px;
+  border-image: linear-gradient(45deg, #42b883, rgb(147, 101, 255)) 1;
 }
 </style>
