@@ -22,7 +22,7 @@ export default {
     };
   },
 
-  inject: ['updateStatus'],
+  
 
   methods: {
     submitMessage() {
@@ -45,7 +45,7 @@ export default {
         }),
       }).then((respone) => {
         if(respone.ok){
-          console.log("Message sent: " + this.message);
+          console.log("Message sent");
         }else{
           throw new Error("Could not save data");
         }
@@ -55,7 +55,6 @@ export default {
       }
 
       this.message = '';
-      this.updateStatus();
     }
   },
 }

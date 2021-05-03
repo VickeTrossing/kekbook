@@ -57,6 +57,10 @@ export default {
       }).catch((error) => {
         console.log(error);
       })
+    },
+
+    sendData(){
+      this.$emit('update-status', this.loadPosts);
     }
   },
 

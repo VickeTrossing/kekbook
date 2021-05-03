@@ -9,15 +9,19 @@
       <update-status></update-status>
     </div>
 
+    <div>
+      <base-button @click="updateStatus">UPPDATERA</base-button>
+    </div>
+
     <div class="content-body">
-      <content-body></content-body>
+      <content-body @update-status="updateStatus"></content-body>
     </div>
   </div>
-  <welcome v-if="namePopup === true">
+  <!-- <welcome v-if="namePopup === true">
     <h1>Hello enter your name pls</h1>
     <input type="text" v-model="givenName">
     <base-button @click="yourName">Sumbit</base-button>
-    </welcome>
+    </welcome> -->
 </template>
 
 <script>
@@ -43,6 +47,10 @@ export default {
     yourName(){
       console.log(this.givenName);
       this.namePopup = false;
+    },
+
+    updateStatus(myFunction){
+      myFunction();
     }
   }
 }

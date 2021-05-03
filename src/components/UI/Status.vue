@@ -3,7 +3,6 @@
     <div class="outer-div">
       <p>
         <img id="img-id" src="../../icons/fi-rr-user.svg" alt />
-        <span>{{ username }}</span>
         <span id="text-id">{{ messages }}</span>
         <base-button id="delete-button" @click="deleteItem">Delete</base-button>
       </p>
@@ -15,9 +14,13 @@
     </div>
     <div v-if="commentIsActive" class="comment-section">
       <input type="text" placeholder="Write a comment" v-model="comment" />
-      <base-button class="post-button" @click="postComments">Post {{ username }}</base-button>
+      <base-button class="post-button" @click="postComments">Post</base-button>
       <ul v-if="postedComments">
-        <li v-for="comment in postedComments" :key="comment.id" :comment="comment.comment">{{ comment.comment }}</li>
+        <li
+          v-for="comment in postedComments"
+          :key="comment.id"
+          :comment="comment.comment"
+        >{{ comment.comment }}</li>
       </ul>
     </div>
   </base-card>
@@ -45,8 +48,9 @@ export default {
   inject: ['username', 'updateStatus'],
 
 
-  mounted(){
+  mounted() {
     this.countComments();
+    this.updateStatus();
   },
 
   methods: {
@@ -60,11 +64,11 @@ export default {
       });
 
       setTimeout(() => {
-            this.updateStatus();
-    }, 300);
+        this.updateStatus();
+      }, 300);
     },
 
-    countComments(){
+    countComments() {
       this.postedComments.length = this.commentCount;
       console.log(this.postedComments.length);
     },
@@ -84,68 +88,68 @@ export default {
       this.countComments();
       console.log(this.username);
     },
-  
 
 
-  postComments() {
 
-    const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
+    postComments() {
 
-    if (this.comment.trim() === '') {
-      console.log("Stop that, write something")
-    } else {
-      fetch(postId, {
-        method: 'POST',
+      const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
 
-        headers: {
-          'Content-type': 'application/json'
-        },
+      if (this.comment.trim() === '') {
+        console.log("Stop that, write something")
+      } else {
+        fetch(postId, {
+          method: 'POST',
 
-        body: JSON.stringify({
-          comment: this.comment,
-        }),
-      }).then((response) => {
-        if (response.ok) {
-          console.log("All good in the hood");
-        } else {
-          throw new Error("Could not send comment");
+          headers: {
+            'Content-type': 'application/json'
+          },
+
+          body: JSON.stringify({
+            comment: this.comment,
+          }),
+        }).then((response) => {
+          if (response.ok) {
+            console.log("All good in the hood");
+          } else {
+            throw new Error("Could not send comment");
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+      }
+
+      this.comment = '';
+      setTimeout(() => {
+        this.loadComments();
+      }, 300);
+    },
+
+
+    loadComments() {
+      const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
+
+      fetch(postId).then((res) => {
+        if (res.ok) {
+          return res.json();
         }
+      }).then((data) => {
+        const results = [];
+
+        for (const id in data) {
+          results.unshift({
+            comment: data[id].comment,
+            id: id
+          });
+          console.log(data);
+        }
+        this.postedComments = results;
       }).catch((error) => {
         console.log(error);
       })
     }
 
-    this.comment = '';
-    setTimeout(() => {
-      this.loadComments();
-    }, 300);
-  },
-
-
-  loadComments() {
-    const postId = 'https://kekbook-5f818-default-rtdb.firebaseio.com/status-post/' + this.id + '.json';
-
-    fetch(postId).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    }).then((data) => {
-      const results = [];
-
-      for (const id in data) {
-        results.unshift({
-          comment: data[id].comment,
-          id: id
-        });
-        console.log(data);
-      }
-      this.postedComments = results;
-    }).catch((error) => {
-      console.log(error);
-    })
   }
-
-}
 
 }
 </script>
