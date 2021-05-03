@@ -10,6 +10,11 @@ import Status from './Status.vue'
 
 export default {
   components: { Status },
+  provide(){
+    return{
+      updateStatus: this.loadPosts
+    }
+  },
   // props: ['messages'],
 
   data() {

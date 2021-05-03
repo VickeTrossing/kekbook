@@ -22,6 +22,8 @@ export default {
     };
   },
 
+  inject: ['updateStatus'],
+
   methods: {
     submitMessage() {
 
@@ -53,6 +55,7 @@ export default {
       }
 
       this.message = '';
+      this.updateStatus();
     }
   },
 }

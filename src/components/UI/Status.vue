@@ -3,6 +3,7 @@
     <div class="outer-div">
       <p>
         <img id="img-id" src="../../icons/fi-rr-user.svg" alt />
+        <span>{{ username }}</span>
         <span id="text-id">{{ messages }}</span>
         <base-button id="delete-button" @click="deleteItem">Delete</base-button>
       </p>
@@ -14,7 +15,7 @@
     </div>
     <div v-if="commentIsActive" class="comment-section">
       <input type="text" placeholder="Write a comment" v-model="comment" />
-      <base-button class="post-button" @click="postComments">Post</base-button>
+      <base-button class="post-button" @click="postComments">Post {{ username }}</base-button>
       <ul v-if="postedComments">
         <li v-for="comment in postedComments" :key="comment.id" :comment="comment.comment">{{ comment.comment }}</li>
       </ul>
@@ -28,6 +29,7 @@
 
 export default {
 
+
   data() {
     return {
       like: 0,
@@ -39,6 +41,8 @@ export default {
   },
 
   props: ['messages', 'id'],
+
+  inject: ['username', 'updateStatus'],
 
 
   mounted(){
@@ -54,6 +58,10 @@ export default {
           'Content-type': 'application/json'
         }
       });
+
+      setTimeout(() => {
+            this.updateStatus();
+    }, 300);
     },
 
     countComments(){
@@ -74,6 +82,7 @@ export default {
       this.commentIsActive = !this.commentIsActive;
       this.loadComments();
       this.countComments();
+      console.log(this.username);
     },
   
 

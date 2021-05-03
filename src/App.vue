@@ -1,5 +1,5 @@
 <template>
-  <navigation></navigation>
+  <navigation :name="givenName"></navigation>
   <div class="body">
     <div class="side-bar">
       <side-bar></side-bar>
@@ -13,10 +13,39 @@
       <content-body></content-body>
     </div>
   </div>
+  <welcome v-if="namePopup === true">
+    <h1>Hello enter your name pls</h1>
+    <input type="text" v-model="givenName">
+    <base-button @click="yourName">Sumbit</base-button>
+    </welcome>
 </template>
 
 <script>
-export default {}
+
+export default {
+
+  provide(){
+    return{
+      username: this.givenName
+    }
+  },
+
+
+  data(){
+    return{
+      namePopup: true,
+      name: '',
+      givenName: ''
+    };
+  },
+
+  methods: {
+    yourName(){
+      console.log(this.givenName);
+      this.namePopup = false;
+    }
+  }
+}
 
 </script>
     

@@ -1,11 +1,16 @@
 <template>
   <nav>
-    <div class="logo-class">KekBook</div>
+    <div class="logo-class">KekBook
+      <div class="slot-div">
+      <slot>Welcome, {{ name }}</slot>
+    </div>
+    </div>
   </nav>
 </template>
 
 <script>
 export default {
+  props: ['name']
 
 }
 </script>
@@ -26,5 +31,13 @@ nav {
   font-size: 40px;
   font-weight: 400 !important;
   text-shadow: 0px 0px 2px #42b883;
+}
+
+.slot-div{
+  float: right;
+  color: white;
+  font-size: 20px;
+  text-shadow: none;
+  padding: 10px;
 }
 </style>
